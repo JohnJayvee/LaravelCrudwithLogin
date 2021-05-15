@@ -173,7 +173,7 @@ Route::group([
     );
     Route::delete(
         '/users/{id}',
-        ['uses' => 'UsersController@delete', 'as' => 'destroy',]
+        ['uses' => 'UsersController@destroy', 'as' => 'destroy',]
     );
 });
 //!====================================[End of Users]====================================//

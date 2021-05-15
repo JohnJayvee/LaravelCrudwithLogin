@@ -10,6 +10,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
+    
     public function home()
     {
 
