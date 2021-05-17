@@ -1,5 +1,6 @@
 @extends('base')
 @section('main')
+
     <div class="row">
         <div class="col-sm-12">
             <h1 class="display-3">Contacts</h1>
@@ -20,7 +21,7 @@
                 <tbody>
                     @foreach ($contacts as $row)
                         <tr>
-                            <td>{{ $row->id }}</td>
+                            <td>{{ ++$i }}</td>
                             <td>{{ $row->first_name }}</td>
                             <td>{{ $row->last_name }}</td>
                             <td>{{ $row->email }}</td>

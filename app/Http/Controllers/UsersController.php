@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
 
@@ -41,12 +37,6 @@ class UsersController extends Controller
         return view('userView', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         usersModel::updateOrCreate(
@@ -56,34 +46,19 @@ class UsersController extends Controller
 
         return response()->json(['success' => 'User saved successfully.']);
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $users = DB::table('tbl_users')->find($id);
         return response()->json($users);
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\usersModel  $user
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $users = DB::table('tbl_users')->find($id);
         return response()->json($users);
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\usersModel  $user
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         // DB::table('tbl_users')->delete($id);

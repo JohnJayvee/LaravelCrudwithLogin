@@ -26,7 +26,10 @@ class ResetPasswordController extends Controller
         ]);
 
         $updatePassword = DB::table('password_resets')
-            ->where(['email' => $request->email, 'token' => $request->token])
+            ->where([
+                'email' => $request->email,
+                'token' => $request->token
+            ])
             ->first();
 
         if (!$updatePassword)

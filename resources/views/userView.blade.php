@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Laravel 8 Crud operation using ajax(Real Programmer)</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 <style>
     .error {
         color: red;
         /* background-color: #acf; */
     }
+
 </style>
 
 <body>
@@ -23,7 +24,7 @@
         <br><br>
         <span id="success_message"></span>
 
-        <table class="table table-bordered data-table" style="width: 100%">
+        <table class="table table-bordered data-table" style="width: 100%;text-align:center;">
             <thead>
                 <tr>
                     <th>No</th>
@@ -75,16 +76,7 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
-
     {{-- show modal --}}
-
     <div class="modal fade ajaxShowModel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -114,153 +106,14 @@
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var table = $('.data-table').DataTable({
-                processing: true,
-                serverSide: true,
-                responsive: true,
-                ajax: "{{ url('users') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'firstName',
-                        name: 'firstName'
-                    },
-                    {
-                        data: 'lastName',
-                        name: 'lastName'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
-            // setInterval(function() {
-            //     table.draw();
-            // }, 500);
 
-
-
-            $('#createNewUser').click(function() {
-                $('#saveBtn').val("create-user");
-                $('#user_id').val('');
-                $('#userForm').trigger("reset");
-                $('#modelHeading').html("Create New User");
-                $('#ajaxModel').modal('show');
-
-            });
-            // Edit function
-            $('body').on('click', '.editUser', function() {
-                var user_id = $(this).data('id');
-                var editUrl = '{{ route('user.edit', ':id') }}';
-                editUrl = editUrl.replace(':id', user_id);
-                $.get(editUrl, function(data) {
-                    $('#modelHeading').html("Edit User");
-
-                    $('#saveBtn').val("edit-user");
-                    $('#ajaxModel').modal('show');
-                    $('#user_id').val(data.id);
-                    $('#firstName').val(data.firstName);
-                    $('#lastName').val(data.lastName);
-
-                })
-            });
-            // show function
-            $('body').on('click', '.showUser', function() {
-                var user_id = $(this).data('id');
-                var showUrl = '{{ route('user.show', ':id') }}';
-                showUrl = showUrl.replace(':id', user_id);
-                $.get(showUrl, function(data) {
-                    $('.modelHeading').html("Show User");
-                    $('.ajaxShowModel').modal('show');
-                    $(".btn").click(function() {
-                        $(".ajaxShowModel").modal('hide');
-                    });
-                    $('.firstName').text(data.firstName);
-                    $('.lastName').text(data.lastName);
-                    console.log(data.lastName);
-                })
-            });
-
-            $('#saveBtn').click(function(e) {
-                $("#userForm").validate({
-
-                    submitHandler: function(form) {
-                        $.ajax({
-                            data: $('#userForm').serialize(),
-                            url: "{{ route('user.store') }}",
-                            type: "POST",
-                            dataType: 'json',
-                            success: function(data) {
-
-                                $('#userForm').trigger("reset");
-                                $('#ajaxModel').modal('hide');
-                                console.log('Success:', data);
-                                table.draw();
-
-                            },
-                            error: function(data) {
-                                console.log('Error:', data);
-                                $('#saveBtn').html('Save Changes');
-                            }
-                        });
-                    }
-
-    // // Called when the element is invalid:
-    // highlight: function(element) {
-    //     $(element).css('background', '#ffdddd');
-    // },
-
-    // // Called when the element is valid:
-    // unhighlight: function(element) {
-    //     $(element).css('background', '#ffffff');
-    // }
-                });
-            });
-
-            // Delete function
-            $('body').on('click', '.deleteUser', function() {
-                var user_id = $(this).data('id');
-                var deleteUrl = '{{ route('user.destroy', ':id') }}';
-                deleteUrl = deleteUrl.replace(':id', user_id);
-
-
-                if (confirm("Are You sure want to delete !")) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: deleteUrl,
-
-                        error: function() {
-                            console.log('Error:', data);
-                            table.draw();
-                        },
-                        success: function(data) {
-                            console.log('Success:', data);
-                            table.draw();
-                        }
-
-                    });
-                }
-            });
-        });
-
-    </script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script> --}}
+    @include('ajax.userAjax')
 </body>
 
 </html>

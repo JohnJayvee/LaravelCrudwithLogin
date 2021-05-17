@@ -8,35 +8,19 @@ use Illuminate\Support\Facades\Crypt;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $request)
     {
         $contacts = Contact::all();
-
-        return view('contacts.index', compact('contacts'));
-        // return response()->json(compact('contacts'));
+        return view('contacts.index', compact('contacts'))
+            ->with('i');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('contacts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -54,42 +38,23 @@ class ContactController extends Controller
             'country' => $request->get('country')
         ]);
         $contact->save();
-        return redirect('/contacts')->with('success', 'Contact saved!');
+        return redirect('/contacts')
+            ->with('success', 'Contact saved!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         // $contact = Contact::find(Crypt::decrypt($id));
         $contact = Contact::find(Crypt::decryptString($id));
-
         return view('contacts.show', compact('contact'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $contact = Contact::find(Crypt::decryptString($id));
         return view('contacts.edit  ', compact('contact'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -106,20 +71,15 @@ class ContactController extends Controller
         $contact->city = $request->get('city');
         $contact->country = $request->get('country');
         $contact->save();
-        return redirect('/contacts')->with('success', 'Contact updated!');
+        return redirect('/contacts')
+            ->with('success', 'Contact updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $contact = Contact::find(Crypt::decryptString($id));
         $contact->delete();
-
-        return redirect('/contacts')->with('success', 'Contact deleted!');
+        return redirect('/contacts')
+            ->with('success', 'Contact deleted!');
     }
 }

@@ -41,7 +41,6 @@ class ChangePasswordController extends Controller
 
         $user->password = Hash::make($request->password);
         $user->save();
-
         return back()->with('success', 'Password successfully changed!');
     }
 }

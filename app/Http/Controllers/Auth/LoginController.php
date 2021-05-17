@@ -33,7 +33,10 @@ class LoginController extends Controller
             ]
         );
 
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only(
+            'email',
+            'password'
+        );
 
         if (Auth::attempt($credentials)) {
             // return redirect()->intended('home');
@@ -45,13 +48,13 @@ class LoginController extends Controller
             }
         }
 
-        return redirect('login')->with('error', 'Oppes! You have entered invalid credentials');
+        return redirect('login')
+            ->with('error', 'Oppes! You have entered invalid credentials');
     }
 
     public function logout()
     {
         Auth::logout();
-
         return redirect('login');
     }
 }
