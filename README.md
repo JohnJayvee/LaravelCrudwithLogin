@@ -70,7 +70,7 @@ Step 4: `php artisan serve`
 
 ## URL
 
-Users: `http://http://127.0.0.1:8000/users`
+Users: `http://http://127.0.0.1:8000/users`<br>
 Contacts: `http://http://127.0.0.1:8000/contacts`
 
 
