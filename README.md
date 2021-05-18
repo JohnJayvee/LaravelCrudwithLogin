@@ -68,5 +68,10 @@ Step 2: `composer update`<br>
 Step 3: `composer migrate`<br>
 Step 4: `php artisan serve`
 
+## URL
+
+Users: `http://http://127.0.0.1:8000/users`
+Contacts: `http://http://127.0.0.1:8000/contacts`
+
 
 
