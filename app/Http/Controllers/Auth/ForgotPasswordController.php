@@ -1,6 +1,6 @@
 <?php
 
-namespace App\System\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
