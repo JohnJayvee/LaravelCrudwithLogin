@@ -72,6 +72,3 @@ Step 4: `php artisan serve`
 
 Users: `http://http://127.0.0.1:8000/users`<br>
 Contacts: `http://http://127.0.0.1:8000/contacts`
-
-
-
