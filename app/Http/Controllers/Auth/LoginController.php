@@ -24,19 +24,27 @@ class LoginController extends Controller
     {
         $request->validate(
             [
-                'email' => 'required|string|email',
+                'login' => 'required|string',
                 'password' => 'required|string',
             ],
             [
-                'email.required' => 'Enter a valid :attribute is required',
+                'login.required' => 'Enter a valid username or email is required',
                 'password.required' => 'Enter a valid :attribute is required'
             ]
         );
+        $login_type = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL)
+            ? 'email'
+            : 'username';
+
+        $request->merge([
+            $login_type => $request->input('login')
+        ]);
 
         $credentials = $request->only(
-            'email',
+            $login_type,
             'password'
         );
+
 
         if (Auth::attempt($credentials)) {
             // return redirect()->intended('home');
@@ -49,7 +57,7 @@ class LoginController extends Controller
         }
 
         return redirect('login')
-            ->with('error', 'Oppes! You have entered invalid credentials');
+            ->with('error', 'These credentials do not match our records.');
     }
 
     public function logout()

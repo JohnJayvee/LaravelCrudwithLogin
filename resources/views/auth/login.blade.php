@@ -16,14 +16,15 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label for="email"
+                                <label for="login"
                                     class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" value="{{ old('email') }}" autocomplete="email" autofocus>
+                                    <input id="login" type="login" class="form-control @error('login') is-invalid @enderror"
+                                        name="login" value="{{ old('username') ?: old('email') }}" autocomplete="off"
+                                        autofocus>
 
-                                    @error('email')
+                                    @error('login')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -38,7 +39,7 @@
                                 <div class="col-md-6">
                                     <input id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
-                                        autocomplete="current-password">
+                                        autocomplete="off">
 
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
