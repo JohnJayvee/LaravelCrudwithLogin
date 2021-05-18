@@ -61,7 +61,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Turorial
+## How to install
 
 Step 1: `composer install`<br>
 Step 2: `composer update`<br>
