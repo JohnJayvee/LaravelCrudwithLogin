@@ -135,16 +135,17 @@ Route::group([
         ['uses' => 'UsersController@index', 'as' => 'index']
     );
     Route::get(
-        '/users/{id}/edit',
+        '/users/edit/{id}',
         ['uses' => 'UsersController@edit', 'as' => 'edit']
     );
     Route::post(
         '/users/store/',
         ['uses' => 'UsersController@store', 'as' => 'store']
     );
-    Route::get(
-        '/users/show/{id}/',
-        ['uses' => 'UsersController@show', 'as' => 'show']
+
+    Route::put(
+        '/users/update/{id}',
+        ['uses' => 'UsersController@update', 'as' => 'update']
     );
     Route::delete(
         '/users/{id}',

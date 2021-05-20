@@ -21,8 +21,6 @@ class UsersController extends Controller
                 ->addColumn('action', function ($row) {
 
                     $btn = '
-                    <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Show" class="show btn btn-warning btn-sm showUser">Show</a>
-
                     <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editUser">Edit</a>
 
 
@@ -39,30 +37,68 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-        usersModel::updateOrCreate(
-            ['id' => $request->user_id],
-            ['firstName' => $request->firstName, 'lastName' => $request->lastName]
-        );
+        // usersModel::updateOrCreate(
+        //     ['id' => $request->user_id],
+        //     ['firstName' => $request->firstName, 'lastName' => $request->lastName]
+        // );
 
-        return response()->json(['success' => 'User saved successfully.']);
+        // return response()->json(['success' => 'User saved successfully.']);
+
+        $users = new usersModel;
+        $users->firstName = $request->firstName;
+        $users->lastName = $request->lastName;
+        $users->save();
+
+        return response()->json([
+            "message" => "users record created"
+        ], 201);
     }
 
-    public function show($id)
-    {
-        $users = DB::table('tbl_users')->find($id);
-        return response()->json($users);
-    }
 
     public function edit($id)
     {
-        $users = DB::table('tbl_users')->find($id);
+        $users = usersModel::find($id);
         return response()->json($users);
     }
 
+    public function update(Request $request, $id)
+    {
+        // usersModel::updateOrCreate(
+        //     ['id' => $request->user_id],
+        //     ['firstName' => $request->firstName, 'lastName' => $request->lastName]
+        // );
+
+        // return response()->json(['success' => 'User saved successfully.']);
+
+        if (usersModel::where('id', $id)->exists()) {
+            $users = usersModel::find($id);
+            $users->firstName = is_null($request->firstName) ? $users->firstName : $request->firstName;
+            $users->lastName = is_null($request->lastName) ? $users->lastName : $request->lastName;
+            $users->save();
+
+            return response()->json([
+                "message" => "records updated successfully"
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Student not found"
+            ], 404);
+        }
+    }
     public function destroy($id)
     {
-        // DB::table('tbl_users')->delete($id);
-        DB::table('tbl_users')->delete($id);
-        return response()->json(['success' => 'User deleted successfully.']);
+        if(usersModel::where('id', $id)->exists()) {
+            $users = usersModel::find($id);
+            $users->delete();
+
+            return response()->json([
+              "message" => "records deleted"
+            ], 202);
+          } else {
+            return response()->json([
+              "message" => "Student not found"
+            ], 404);
+          }
+
     }
 }

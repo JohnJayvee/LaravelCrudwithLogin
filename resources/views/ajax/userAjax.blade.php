@@ -52,10 +52,37 @@
         $('#createNewUser').click(function() {
             $('#saveBtn').val("create-user");
             $('#user_id').val('');
-            $('#userForm').trigger("reset");
+            $('#userFormCreate').trigger("reset");
             $('#modelHeading').html("Create New User");
-            $('#ajaxModel').modal('show');
+            $('#ajaxModelCreate').modal('show');
 
+        });
+
+        // Create Save Function
+        $('#saveBtnCreate').click(function(e) {
+            $("#userFormCreate").validate({
+
+                submitHandler: function(form) {
+                    $.ajax({
+                        data: $('#userFormCreate').serialize(),
+                        url: "{{ route('user.store') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(data) {
+
+                            $('#userFormCreate').trigger("reset");
+                            $('#ajaxModelCreate').modal('hide');
+                            console.log('Success:', data);
+                            table.draw();
+
+                        },
+                        error: function(data) {
+                            console.log('Error:', data);
+                            $('#saveBtnCreate').html('Save Changes');
+                        }
+                    });
+                }
+            });
         });
 
         // Edit function
@@ -64,55 +91,43 @@
             var editUrl = '{{ route('user.edit', ':id') }}';
             editUrl = editUrl.replace(':id', user_id);
             $.get(editUrl, function(data) {
-                $('#modelHeading').html("Edit User");
-
-                $('#saveBtn').val("edit-user");
-                $('#ajaxModel').modal('show');
-                $('#user_id').val(data.id);
-                $('#firstName').val(data.firstName);
-                $('#lastName').val(data.lastName);
+                $('.modelHeading').html("Edit User");
+                $('.saveBtnEdit').val("edit-user");
+                $('.ajaxModelEdit').modal('show');
+                $('.user_id').val(data.id);
+                $('.firstName').val(data.firstName);
+                $('.lastName').val(data.lastName);
 
             })
         });
 
-        // show function
-        $('body').on('click', '.showUser', function() {
-            var user_id = $(this).data('id');
-            var showUrl = '{{ route('user.show', ':id') }}';
-            showUrl = showUrl.replace(':id', user_id);
-            $.get(showUrl, function(data) {
-                $('.modelHeading').html("Show User");
-                $('.ajaxShowModel').modal('show');
-                $(".btn").click(function() {
-                    $(".ajaxShowModel").modal('hide');
-                });
-                $('.firstName').text(data.firstName);
-                $('.lastName').text(data.lastName);
-                console.log(data.lastName);
-            })
-        });
+        // Edit Save Function
+        $('.saveBtnEdit').click(function(e) {
+            // var user_id = $(this).data('id');
+            var user_id = $('.user_id').val();
+            var updateUrl = '{{ route('user.update', ':id') }}';
+            updateUrl = updateUrl.replace(':id', user_id);
 
-        // Save Function
-        $('#saveBtn').click(function(e) {
-            $("#userForm").validate({
 
+            $(".userFormEdit").validate({
                 submitHandler: function(form) {
                     $.ajax({
-                        data: $('#userForm').serialize(),
-                        url: "{{ route('user.store') }}",
-                        type: "POST",
+                        data: $('.userFormEdit').serialize(),
+                        url: updateUrl,
+                        type: "PATCH",
                         dataType: 'json',
                         success: function(data) {
-
-                            $('#userForm').trigger("reset");
-                            $('#ajaxModel').modal('hide');
+                            $(this).data(data.id);
+                            $('.userFormEdit').trigger("reset");
+                            $('.ajaxModelEdit').modal('hide');
                             console.log('Success:', data);
                             table.draw();
+
 
                         },
                         error: function(data) {
                             console.log('Error:', data);
-                            $('#saveBtn').html('Save Changes');
+                            $('.saveBtnEdit').html('Save Changes');
                         }
                     });
                 }
@@ -132,7 +147,7 @@
                     url: deleteUrl,
 
                     error: function() {
-                        // console.log('Error:', data);
+                        console.log('Error:', data);
                         table.draw();
                     },
                     success: function(data) {

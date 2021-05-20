@@ -38,15 +38,15 @@
         </table>
 
     </div>
-    {{-- edit modal --}}
-    <div class="modal fade" id="ajaxModel" aria-hidden="true">
+    {{-- create modal --}}
+    <div class="modal fade" id="ajaxModelCreate" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modelHeading"></h4>
                 </div>
                 <div class="modal-body">
-                    <form id="userForm" name="userForm" class="form-horizontal">
+                    <form id="userFormCreate" name="userFormCreate" class="form-horizontal">
                         <input type="hidden" name="user_id" id="user_id">
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">Firstname</label>
@@ -67,7 +67,7 @@
                         </div>
 
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
+                            <button type="submit" class="btn btn-primary" id="saveBtnCreate">Save changes
                             </button>
                         </div>
                     </form>
@@ -76,31 +76,39 @@
         </div>
     </div>
 
-    {{-- show modal --}}
-    <div class="modal fade ajaxShowModel" aria-hidden="true">
+    {{-- Edit modal --}}
+    <div class="modal fade ajaxModelEdit" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title modelHeading"></h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-user-information">
-                        <tr>
-                            <td>Firstname</td>
-                            <td class="firstName"></td>
-                        </tr>
+                    <form class="form-horizontal userFormEdit" name="userFormEdit" >
+                        <input type="text" class="user_id "name="user_id">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">Firstname</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control firstName" name="firstName"
+                                    placeholder="Enter Title" value="" maxlength="50" required="">
+                            </div>
+                        </div>
 
-                        <tr>
-                            <td>Lastname: </td>
-                            <td class="lastName"></td>
-                        </tr>
-                    </table>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Lastname</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control lastName" name="lastName"
+                                    placeholder="Enter Title" value="" maxlength="50" required="">
+                                {{-- <textarea id="lastName" name="lastName" required="" placeholder="Enter Author"
+                                    class="form-control"></textarea> --}}
+                            </div>
+                        </div>
 
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Close
-                        </button>
-                    </div>
-
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary saveBtnEdit" value="edit">Save changes
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
