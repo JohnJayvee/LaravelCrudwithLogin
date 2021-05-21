@@ -134,14 +134,12 @@ Route::group([
         '/users',
         ['uses' => 'UsersController@index', 'as' => 'index']
     );
-    Route::get(
-        '/users/getAllUsers',
-        ['uses' => 'UsersController@getAllUsers', 'as' => 'getAllUsers']
-    );
+
     Route::get(
         '/users/edit/{id}',
         ['uses' => 'UsersController@edit', 'as' => 'edit']
     );
+
     Route::post(
         '/users/store/',
         ['uses' => 'UsersController@store', 'as' => 'store']
@@ -151,6 +149,7 @@ Route::group([
         '/users/update/{id}',
         ['uses' => 'UsersController@update', 'as' => 'update']
     );
+    
     Route::delete(
         '/users/{id}',
         ['uses' => 'UsersController@destroy', 'as' => 'destroy']
