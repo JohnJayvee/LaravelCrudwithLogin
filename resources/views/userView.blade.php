@@ -85,7 +85,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal userFormEdit" name="userFormEdit" >
-                        <input type="text" class="user_id "name="user_id">
+                        <input type="hidden" class="user_id "name="user_id">
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">Firstname</label>
                             <div class="col-sm-12">

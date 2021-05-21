@@ -135,6 +135,10 @@ Route::group([
         ['uses' => 'UsersController@index', 'as' => 'index']
     );
     Route::get(
+        '/users/getAllUsers',
+        ['uses' => 'UsersController@getAllUsers', 'as' => 'getAllUsers']
+    );
+    Route::get(
         '/users/edit/{id}',
         ['uses' => 'UsersController@edit', 'as' => 'edit']
     );
@@ -143,7 +147,7 @@ Route::group([
         ['uses' => 'UsersController@store', 'as' => 'store']
     );
 
-    Route::put(
+    Route::patch(
         '/users/update/{id}',
         ['uses' => 'UsersController@update', 'as' => 'update']
     );

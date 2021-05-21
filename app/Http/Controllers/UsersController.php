@@ -11,11 +11,11 @@ class UsersController extends Controller
 
     public function index(Request $request)
     {
-
-        $users = DB::table('tbl_users')->get();
+        // $json = DB::table('tbl_users')->get()->tojson();
+        $users = usersModel::get()->toJson();
 
         if ($request->ajax()) {
-            $data = $users;
+            $data = json_decode($users);
             return Datatables()->of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -30,46 +30,55 @@ class UsersController extends Controller
                 })
                 ->rawColumns(['action'])
                 ->make(true);
+
         }
 
-        return view('userView', compact('users'));
+        return view('userView');
+
+    }
+
+    public function getAllUsers()
+    {
+        // $users = DB::table('tbl_users')->get();
+        // return compact('users');
+        $users = usersModel::get()->toJson();
+        $ok = json_decode($users);
+        return response($ok, 200);
     }
 
     public function store(Request $request)
     {
-        // usersModel::updateOrCreate(
-        //     ['id' => $request->user_id],
-        //     ['firstName' => $request->firstName, 'lastName' => $request->lastName]
-        // );
+        if ($users = new usersModel()) {
+            $users->firstName = $request->firstName;
+            $users->lastName = $request->lastName;
+            $users->save();
 
-        // return response()->json(['success' => 'User saved successfully.']);
-
-        $users = new usersModel;
-        $users->firstName = $request->firstName;
-        $users->lastName = $request->lastName;
-        $users->save();
-
-        return response()->json([
-            "message" => "users record created"
-        ], 201);
+            return response()->json([
+                "message" => "users record created"
+            ], 201);
+        } else {
+            return response()->json([
+                "message" => "User not found"
+            ], 404);
+        }
     }
-
 
     public function edit($id)
     {
-        $users = usersModel::find($id);
-        return response()->json($users);
+        // $users = usersModel::find($id);
+        // return response()->json($users);
+        if (usersModel::where('id', $id)->exists()) {
+            $users = usersModel::find($id);
+            return response($users, 200);
+        } else {
+            return response()->json([
+                "message" => "User not found"
+            ], 404);
+        }
     }
 
     public function update(Request $request, $id)
     {
-        // usersModel::updateOrCreate(
-        //     ['id' => $request->user_id],
-        //     ['firstName' => $request->firstName, 'lastName' => $request->lastName]
-        // );
-
-        // return response()->json(['success' => 'User saved successfully.']);
-
         if (usersModel::where('id', $id)->exists()) {
             $users = usersModel::find($id);
             $users->firstName = is_null($request->firstName) ? $users->firstName : $request->firstName;
@@ -77,28 +86,28 @@ class UsersController extends Controller
             $users->save();
 
             return response()->json([
-                "message" => "records updated successfully"
+                "message" => "User record updated successfully"
             ], 200);
         } else {
             return response()->json([
-                "message" => "Student not found"
+                "message" => "User not found"
             ], 404);
         }
     }
+
     public function destroy($id)
     {
-        if(usersModel::where('id', $id)->exists()) {
+        if (usersModel::where('id', $id)->exists()) {
             $users = usersModel::find($id);
             $users->delete();
 
             return response()->json([
-              "message" => "records deleted"
+                "message" => "records deleted"
             ], 202);
-          } else {
+        } else {
             return response()->json([
-              "message" => "Student not found"
+                "message" => "User not found"
             ], 404);
-          }
-
+        }
     }
 }

@@ -8,7 +8,7 @@
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
-            // responsive: true,
+            responsive: true,
             ajax: "{{ route('user.index') }}",
             lengthMenu: [
                 [10, 25, 50, 100, -1],
@@ -67,13 +67,14 @@
                         data: $('#userFormCreate').serialize(),
                         url: "{{ route('user.store') }}",
                         type: "POST",
-                        dataType: 'json',
+                        dataType: 'JSON',
                         success: function(data) {
 
                             $('#userFormCreate').trigger("reset");
                             $('#ajaxModelCreate').modal('hide');
                             console.log('Success:', data);
-                            table.draw();
+                            table.ajax.reload();
+                            // $('.data-table').DataTable().ajax.reload();
 
                         },
                         error: function(data) {
@@ -88,9 +89,10 @@
         // Edit function
         $('body').on('click', '.editUser', function() {
             var user_id = $(this).data('id');
-            var editUrl = '{{ route('user.edit', ':id') }}';
-            editUrl = editUrl.replace(':id', user_id);
+            var editData = '{{ route('user.edit', ':id') }}';
+            editUrl = editData.replace(':id', user_id);
             $.get(editUrl, function(data) {
+                console.log(data);
                 $('.modelHeading').html("Edit User");
                 $('.saveBtnEdit').val("edit-user");
                 $('.ajaxModelEdit').modal('show');
@@ -103,11 +105,9 @@
 
         // Edit Save Function
         $('.saveBtnEdit').click(function(e) {
-            // var user_id = $(this).data('id');
             var user_id = $('.user_id').val();
-            var updateUrl = '{{ route('user.update', ':id') }}';
-            updateUrl = updateUrl.replace(':id', user_id);
-
+            var updateData = '{{ route('user.update', ':id') }}';
+            updateUrl = updateData.replace(':id', user_id);
 
             $(".userFormEdit").validate({
                 submitHandler: function(form) {
@@ -115,15 +115,13 @@
                         data: $('.userFormEdit').serialize(),
                         url: updateUrl,
                         type: "PATCH",
-                        dataType: 'json',
+                        dataType: 'JSON',
                         success: function(data) {
                             $(this).data(data.id);
                             $('.userFormEdit').trigger("reset");
                             $('.ajaxModelEdit').modal('hide');
                             console.log('Success:', data);
-                            table.draw();
-
-
+                            table.ajax.reload();
                         },
                         error: function(data) {
                             console.log('Error:', data);
@@ -137,22 +135,21 @@
         // Delete function
         $('body').on('click', '.deleteUser', function() {
             var user_id = $(this).data('id');
-            var deleteUrl = '{{ route('user.destroy', ':id') }}';
-            deleteUrl = deleteUrl.replace(':id', user_id);
-
+            var deleteData = '{{ route('user.destroy', ':id') }}';
+            deleteUrl = deleteData.replace(':id', user_id);
+            console.log(user_id);
 
             if (confirm("Are You sure want to delete !")) {
                 $.ajax({
                     type: "DELETE",
                     url: deleteUrl,
-
                     error: function() {
                         console.log('Error:', data);
-                        table.draw();
                     },
                     success: function(data) {
                         console.log('Success:', data);
-                        table.draw();
+                        table.ajax.reload();
+
                     }
 
                 });
