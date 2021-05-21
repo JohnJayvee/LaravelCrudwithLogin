@@ -37,15 +37,6 @@ class UsersController extends Controller
 
     }
 
-    public function getAllUsers()
-    {
-        // $users = DB::table('tbl_users')->get();
-        // return compact('users');
-        $users = usersModel::get()->toJson();
-        $ok = json_decode($users);
-        return response($ok, 200);
-    }
-
     public function store(Request $request)
     {
         if ($users = new usersModel()) {
