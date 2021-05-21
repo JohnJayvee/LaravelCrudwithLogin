@@ -54,7 +54,7 @@
             $('#user_id').val('');
             $('#userFormCreate').trigger("reset");
             $('#modelHeading').html("Create New User");
-            $('#ajaxModelCreate').modal('show');
+            $('#ajaxModalCreate').modal('show');
 
         });
 
@@ -71,7 +71,7 @@
                         success: function(data) {
 
                             $('#userFormCreate').trigger("reset");
-                            $('#ajaxModelCreate').modal('hide');
+                            $('#ajaxModalCreate').modal('hide');
                             console.log('Success:', data);
                             table.ajax.reload();
                             // $('.data-table').DataTable().ajax.reload();
@@ -95,7 +95,7 @@
                 console.log(data);
                 $('.modelHeading').html("Edit User");
                 $('.saveBtnEdit').val("edit-user");
-                $('.ajaxModelEdit').modal('show');
+                $('.ajaxModalEdit').modal('show');
                 $('.user_id').val(data.id);
                 $('.firstName').val(data.firstName);
                 $('.lastName').val(data.lastName);
@@ -114,12 +114,12 @@
                     $.ajax({
                         data: $('.userFormEdit').serialize(),
                         url: updateUrl,
-                        type: "PATCH",
+                        type: "PUT",
                         dataType: 'JSON',
                         success: function(data) {
                             $(this).data(data.id);
                             $('.userFormEdit').trigger("reset");
-                            $('.ajaxModelEdit').modal('hide');
+                            $('.ajaxModalEdit').modal('hide');
                             console.log('Success:', data);
                             table.ajax.reload();
                         },

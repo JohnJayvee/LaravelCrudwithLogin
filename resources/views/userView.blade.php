@@ -39,7 +39,7 @@
 
     </div>
     {{-- create modal --}}
-    <div class="modal fade" id="ajaxModelCreate" aria-hidden="true">
+    <div class="modal fade" id="ajaxModalCreate" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -77,7 +77,7 @@
     </div>
 
     {{-- Edit modal --}}
-    <div class="modal fade ajaxModelEdit" aria-hidden="true">
+    <div class="modal fade ajaxModalEdit" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

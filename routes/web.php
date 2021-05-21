@@ -145,11 +145,11 @@ Route::group([
         ['uses' => 'UsersController@store', 'as' => 'store']
     );
 
-    Route::patch(
+    Route::PUT(
         '/users/update/{id}',
         ['uses' => 'UsersController@update', 'as' => 'update']
     );
-    
+
     Route::delete(
         '/users/{id}',
         ['uses' => 'UsersController@destroy', 'as' => 'destroy']
