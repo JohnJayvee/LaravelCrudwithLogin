@@ -39,10 +39,17 @@ class UsersController extends Controller
     public function store(Request $request)
     {
 
-        $errors =  Validator::make($request->all(), [
-            'c_firstName' => 'required|string|max:255',
-            'c_lastName' => 'required|string|max:255',
-        ]);
+        $errors =  Validator::make(
+            $request->all(),
+            [
+                'c_firstName' => 'required|string|max:255',
+                'c_lastName' => 'required|string|max:255',
+            ],
+            [
+                'c_firstName.required' => 'The First Name field are required',
+                'c_lastName.required' => 'The Last Name field are required'
+            ]
+        );
 
         if ($errors->fails()) {
             return response()->json(['errors' => $errors->errors()]);
@@ -80,10 +87,17 @@ class UsersController extends Controller
 
     public function update(Request $request, $id)
     {
-        $errors =  Validator::make($request->all(), [
-            'u_firstName' => 'required|string|max:255',
-            'u_lastName' => 'required|string|max:255',
-        ]);
+        $errors =  Validator::make(
+            $request->all(),
+            [
+                'u_firstName' => 'required|string|max:255',
+                'u_lastName' => 'required|string|max:255',
+            ],
+            [
+                'u_firstName.required' => 'The First Name field are required',
+                'u_lastName.required' => 'The Last Name field are required'
+            ]
+        );
 
         if ($errors->fails()) {
             return response()->json(['errors' => $errors->errors()]);
