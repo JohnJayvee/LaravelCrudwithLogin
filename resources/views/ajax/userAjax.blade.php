@@ -50,38 +50,44 @@
 
         // Create function
         $('#createNewUser').click(function() {
-            $('#saveBtn').val("create-user");
-            $('#user_id').val('');
-            $('#userFormCreate').trigger("reset");
-            $('#modelHeading').html("Create New User");
-            $('#ajaxModalCreate').modal('show');
+            $('#c_saveBtn').val("create-user");
+            $('#c_user_id').val('');
+            $('#c_userForm').trigger("reset");
+            $('#c_modelHeading').html("Create New User");
+            $('#c_ajaxModal').modal('show');
 
         });
 
         // Create Save Function
-        $('#saveBtnCreate').click(function(e) {
-            $("#userFormCreate").validate({
+        $('#c_userForm').on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                data: $('#c_userForm').serialize(),
+                url: "{{ route('user.store') }}",
+                type: "POST",
+                dataType: 'JSON',
+                success: function(data) {
+                    if (data.errors) {
+                        $.each(data.errors, function(key, value) {
+                            if (key == $('#' + key).attr('id')) {
+                                $('#' + key).addClass('is-invalid')
+                                $('#error-' + key).text(value)
+                            }
+                        })
+                    }
+                    if (data.success) {
+                        html = '<div class="alert alert-success">' + data.success +
+                            '</div>';
+                        $('.form-control').removeClass('is-invalid')
+                        $('#c_userForm')[0].reset();
+                        $('#c_ajaxModal').modal('hide');
+                        table.ajax.reload();
+                    }
 
-                submitHandler: function(form) {
-                    $.ajax({
-                        data: $('#userFormCreate').serialize(),
-                        url: "{{ route('user.store') }}",
-                        type: "POST",
-                        dataType: 'JSON',
-                        success: function(data) {
-
-                            $('#userFormCreate').trigger("reset");
-                            $('#ajaxModalCreate').modal('hide');
-                            console.log('Success:', data);
-                            table.ajax.reload();
-                            // $('.data-table').DataTable().ajax.reload();
-
-                        },
-                        error: function(data) {
-                            console.log('Error:', data);
-                            $('#saveBtnCreate').html('Save Changes');
-                        }
-                    });
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                    $('#saveBtnCreate').html('Save Changes');
                 }
             });
         });
@@ -93,43 +99,53 @@
             editUrl = editData.replace(':id', user_id);
             $.get(editUrl, function(data) {
                 console.log(data);
-                $('.modelHeading').html("Edit User");
-                $('.saveBtnEdit').val("edit-user");
-                $('.ajaxModalEdit').modal('show');
-                $('.user_id').val(data.id);
-                $('.firstName').val(data.firstName);
-                $('.lastName').val(data.lastName);
+                $('#u_modelHeading').html("Edit User");
+                $('#u_saveBtn').val("edit-user");
+                $('#u_ajaxModal').modal('show');
+                $('#u_user_id').val(data.id);
+                $('#u_firstName').val(data.firstName);
+                $('#u_lastName').val(data.lastName);
 
             })
         });
 
         // Edit Save Function
-        $('.saveBtnEdit').click(function(e) {
-            var user_id = $('.user_id').val();
+        $('#u_userForm').on('submit', function(event) {
+            event.preventDefault();
+            var user_id = $('#u_user_id').val();
             var updateData = '{{ route('user.update', ':id') }}';
             updateUrl = updateData.replace(':id', user_id);
+            $.ajax({
+                data: $('#u_userForm').serialize(),
+                url: updateUrl,
+                type: "PUT",
+                dataType: 'JSON',
+                success: function(data) {
 
-            $(".userFormEdit").validate({
-                submitHandler: function(form) {
-                    $.ajax({
-                        data: $('.userFormEdit').serialize(),
-                        url: updateUrl,
-                        type: "PUT",
-                        dataType: 'JSON',
-                        success: function(data) {
-                            $(this).data(data.id);
-                            $('.userFormEdit').trigger("reset");
-                            $('.ajaxModalEdit').modal('hide');
-                            console.log('Success:', data);
-                            table.ajax.reload();
-                        },
-                        error: function(data) {
-                            console.log('Error:', data);
-                            $('.saveBtnEdit').html('Save Changes');
-                        }
-                    });
+                    if (data.errors) {
+                        $.each(data.errors, function(key, value) {
+                            if (key == $('#' + key).attr('id')) {
+                                $('#' + key).addClass('is-invalid')
+                                $('#error-' + key).text(value)
+                            }
+                        })
+                    }
+                    if (data.success) {
+                        html = '<div class="alert alert-success">' + data.success +
+                            '</div>';
+                        $('.form-control').removeClass('is-invalid')
+                        $('#u_userForm')[0].reset();
+                        $('#u_ajaxModal').modal('hide');
+                        table.ajax.reload();
+                    }
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                    $('#u_saveBtn').html('Save Changes');
                 }
             });
+
+
         });
 
         // Delete function
@@ -143,14 +159,15 @@
                 $.ajax({
                     type: "DELETE",
                     url: deleteUrl,
-                    error: function() {
-                        console.log('Error:', data);
-                    },
                     success: function(data) {
                         console.log('Success:', data);
                         table.ajax.reload();
 
+                    },
+                    error: function() {
+                        console.log('Error:', data);
                     }
+
 
                 });
             }
