@@ -13,7 +13,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         // $json = DB::table('tbl_users')->get()->tojson();
-        $users = usersModel::get()->toJson();
+        $users = usersModel::get()->toJson(JSON_PRETTY_PRINT);
 
         if ($request->ajax()) {
             $data = json_decode($users);
