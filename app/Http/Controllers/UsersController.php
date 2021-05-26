@@ -14,6 +14,7 @@ class UsersController extends Controller
     {
         // $json = DB::table('tbl_users')->get()->tojson();
         $users = usersModel::get()->toJson(JSON_PRETTY_PRINT);
+        // return response($users, 200);
 
         if ($request->ajax()) {
             $data = json_decode($users);
@@ -52,7 +53,7 @@ class UsersController extends Controller
         );
 
         if ($errors->fails()) {
-            return response()->json(['errors' => $errors->errors()]);
+            return response()->json(['errors' => $errors->errors()], 400);
         }
 
 
@@ -100,7 +101,7 @@ class UsersController extends Controller
         );
 
         if ($errors->fails()) {
-            return response()->json(['errors' => $errors->errors()]);
+            return response()->json(['errors' => $errors->errors()], 400);
         }
 
 

@@ -127,7 +127,7 @@ Route::group([
 
 Route::group([
     'as' => "user.",
-    'middleware' => "auth"
+    // 'middleware' => "auth"
 ], function () {
 
     Route::get(

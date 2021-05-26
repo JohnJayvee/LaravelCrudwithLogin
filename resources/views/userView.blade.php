@@ -8,18 +8,12 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
-<style>
-    .error {
-        color: red;
-        /* background-color: #acf; */
-    }
-
-</style>
 
 <body>
 
     <div class="container">
-        <h1>Laravel 8 Crud with Ajax</h1>
+        <br>
+        {{-- <h1>Laravel 8 Crud with Ajax</h1> --}}
         <a class="btn btn-success" href="javascript:void(0)" id="createNewUser"> Create New User</a>
         <br><br>
         <span id="success_message"></span>
@@ -38,6 +32,7 @@
         </table>
 
     </div>
+
     {{-- create modal --}}
     <div class="modal fade" id="c_ajaxModal" aria-hidden="true">
         <div class="modal-dialog">
@@ -107,9 +102,9 @@
                             <div class="col-sm-12">
                                 <input type="text" id="u_lastName" class="form-control lastName" name="u_lastName"
                                     placeholder="Enter Title" value="" maxlength="50">
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong id="error-u_lastName"></strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="error-u_lastName"></strong>
+                                </span>
                             </div>
                         </div>
 

@@ -5,6 +5,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
@@ -67,14 +68,14 @@
                 type: "POST",
                 dataType: 'JSON',
                 success: function(data) {
-                    if (data.errors) {
-                        $.each(data.errors, function(key, value) {
-                            if (key == $('#' + key).attr('id')) {
-                                $('#' + key).addClass('is-invalid')
-                                $('#error-' + key).text(value)
-                            }
-                        })
-                    }
+                    // if (data.errors) {
+                    //     $.each(data.errors, function(key, value) {
+                    //         if (key == $('#' + key).attr('id')) {
+                    //             $('#' + key).addClass('is-invalid')
+                    //             $('#error-' + key).text(value)
+                    //         }
+                    //     })
+                    // }
                     if (data.success) {
                         html = '<div class="alert alert-success">' + data.success +
                             '</div>';
@@ -86,8 +87,15 @@
 
                 },
                 error: function(data) {
-                    console.log('Error:', data);
-                    $('#saveBtnCreate').html('Save Changes');
+                    var XHR = $.parseJSON(data.responseText);
+                    if (XHR.errors) {
+                        $.each(XHR.errors, function(key, value) {
+                            if (key == $('#' + key).attr('id')) {
+                                $('#' + key).addClass('is-invalid')
+                                $('#error-' + key).text(value)
+                            }
+                        })
+                    }
                 }
             });
         });
@@ -112,24 +120,23 @@
         // Edit Save Function
         $('#u_userForm').on('submit', function(event) {
             event.preventDefault();
-            var user_id = $('#u_user_id').val();
+            var updateUserID = $('#u_user_id').val();
             var updateData = '{{ route('user.update', ':id') }}';
-            updateUrl = updateData.replace(':id', user_id);
+            updateUrl = updateData.replace(':id', updateUserID);
             $.ajax({
                 data: $('#u_userForm').serialize(),
                 url: updateUrl,
                 type: "PUT",
                 dataType: 'JSON',
                 success: function(data) {
-
-                    if (data.errors) {
-                        $.each(data.errors, function(key, value) {
-                            if (key == $('#' + key).attr('id')) {
-                                $('#' + key).addClass('is-invalid')
-                                $('#error-' + key).text(value)
-                            }
-                        })
-                    }
+                    // if (data.errors) {
+                    //     $.each(data.errors, function(key, value) {
+                    //         if (key == $('#' + key).attr('id')) {
+                    //             $('#' + key).addClass('is-invalid')
+                    //             $('#error-' + key).text(value)
+                    //         }
+                    //     })
+                    // }
                     if (data.success) {
                         html = '<div class="alert alert-success">' + data.success +
                             '</div>';
@@ -138,10 +145,18 @@
                         $('#u_ajaxModal').modal('hide');
                         table.ajax.reload();
                     }
+
                 },
                 error: function(data) {
-                    console.log('Error:', data);
-                    $('#u_saveBtn').html('Save Changes');
+                    var XHR = $.parseJSON(data.responseText);
+                    if (XHR.errors) {
+                        $.each(XHR.errors, function(key, value) {
+                            if (key == $('#' + key).attr('id')) {
+                                $('#' + key).addClass('is-invalid')
+                                $('#error-' + key).text(value)
+                            }
+                        })
+                    }
                 }
             });
 
@@ -150,7 +165,7 @@
 
         // Delete function
         $('body').on('click', '.deleteUser', function() {
-            var user_id = $(this).data('id');
+            var createUserID = $(this).data('id');
             var deleteData = '{{ route('user.destroy', ':id') }}';
             deleteUrl = deleteData.replace(':id', user_id);
             console.log(user_id);
