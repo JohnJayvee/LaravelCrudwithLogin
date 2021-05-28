@@ -15,7 +15,7 @@
                         <td>City</td>
                         <td>Country</td>
                         <td colspan="3" style="text-align: center;">Action</td>
-                        <td hidden></td>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -48,9 +48,10 @@
                                 {{ Form::open(['route' => ['contact.destroy', Crypt::encryptString($row->id)], 'method' => 'delete']) }}
                                 <button type="submit" class="btn btn-danger"
                                     onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+
                                 {{ Form::close() }}
                             </td>
-                            <td hidden></td>
+
                         </tr>
                     @endforeach
                 </tbody>

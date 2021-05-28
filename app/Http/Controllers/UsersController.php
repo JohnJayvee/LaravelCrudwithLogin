@@ -13,11 +13,11 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         // $json = DB::table('tbl_users')->get()->tojson();
-        $users = usersModel::get()->toJson(JSON_PRETTY_PRINT);
+        $users = usersModel::get();
         // return response($users, 200);
 
         if ($request->ajax()) {
-            $data = json_decode($users);
+            $data = $users;
             return Datatables()->of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -34,7 +34,10 @@ class UsersController extends Controller
                 ->make(true);
         }
 
-        return view('userView');
+        if ($request->expectsJson()) {
+            return response()->json($users, 200);
+        }
+        return view('userView', ['users' => $users]);
     }
 
     public function store(Request $request)

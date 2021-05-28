@@ -87,7 +87,7 @@ Route::group([
 
 Route::group([
     'as' => "contact.",
-    'middleware' => "auth"
+    // 'middleware' => "auth"
 ], function () {
 
     Route::get(

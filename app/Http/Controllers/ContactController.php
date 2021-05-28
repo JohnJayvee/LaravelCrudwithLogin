@@ -12,6 +12,7 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $contacts = Contact::all();
+        // dd($contacts);
         return view('contacts.index', compact('contacts'))
             ->with('i');
     }

@@ -6,11 +6,25 @@
             }
         });
 
+        var users = $.ajax({
+            url: "{{ route('user.index') }}",
+            type: "GET",
+            dataType: 'json',
+            success: function(response) {
+                console.log(response.data);
+                return response.data;
+            },
+            error: function(response) {
+                console.log(response.data);
+                return response.data;
+            }
+        });
+
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
-            ajax: "{{ route('user.index') }}",
+            ajax: users,
             lengthMenu: [
                 [10, 25, 50, 100, -1],
                 [10, 25, 50, 100, "All"]
@@ -165,10 +179,10 @@
 
         // Delete function
         $('body').on('click', '.deleteUser', function() {
-            var createUserID = $(this).data('id');
-            var deleteData = '{{ route('user.destroy', ':id') }}';
-            deleteUrl = deleteData.replace(':id', user_id);
-            console.log(user_id);
+            var deleteUserID = $(this).data('id');
+            var editData = '{{ route('user.destroy', ':id') }}';
+            deleteUrl = editData.replace(':id', deleteUserID);
+            console.log(deleteUserID);
 
             if (confirm("Are You sure want to delete !")) {
                 $.ajax({
@@ -179,7 +193,7 @@
                         table.ajax.reload();
 
                     },
-                    error: function() {
+                    error: function(data) {
                         console.log('Error:', data);
                     }
 
