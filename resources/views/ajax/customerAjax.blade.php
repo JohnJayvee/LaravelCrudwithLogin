@@ -44,7 +44,7 @@
                 },
                 {
                     data: 'phone_number',
-                    name: 'phone_numberorderCustomer'
+                    name: 'phone_number'
                 },
                 {
                     data: 'email',

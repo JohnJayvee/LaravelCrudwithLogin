@@ -13,11 +13,11 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         // $json = DB::table('customer')->get()->tojson();
-        $customer = orderModel::get();
+        $order = orderModel::get();
         // return response($customer, 200);
 
         if ($request->ajax()) {
-            $data = $customer;
+            $data = $order;
             return Datatables()->of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -35,9 +35,9 @@ class OrderController extends Controller
         }
 
         if ($request->expectsJson()) {
-            return response()->json($customer, 200);
+            return response()->json($order, 200);
         }
-        return view('orderView', ['users' => $customer]);
+        return view('orderView', ['users' => $order]);
     }
 
     public function store(Request $request)
@@ -68,7 +68,7 @@ class OrderController extends Controller
         }
 
 
-        if ($customer = new customerModel()) {
+        if ($customer = new orderModel()) {
             $customer->name= $request->c_name;
             $customer->address = $request->c_address;
             $customer->phone_number = $request->c_phone_number;
