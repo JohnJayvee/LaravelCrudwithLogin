@@ -10,6 +10,7 @@ class usersModel extends Model
     use HasFactory;
     protected $table = 'tbl_users';
     protected $fillable = [
-        'firstName', 'lastName'
+        'firstName',
+        'lastName'
     ];
 }

@@ -43,7 +43,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
 
-        $errors =  Validator::make(
+        $errors = Validator::make(
             $request->all(),
             [
                 'c_firstName' => 'required|string|max:255',
@@ -91,7 +91,7 @@ class UsersController extends Controller
 
     public function update(Request $request, $id)
     {
-        $errors =  Validator::make(
+        $errors = Validator::make(
             $request->all(),
             [
                 'u_firstName' => 'required|string|max:255',

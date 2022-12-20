@@ -156,3 +156,74 @@ Route::group([
     );
 });
 //!====================================[End of Users]====================================//
+
+
+
+//*====================================[Routes for Users]====================================//
+
+Route::group([
+    'as' => "customer.",
+    // 'middleware' => "auth"
+], function () {
+
+    Route::get(
+        '/customer',
+        ['uses' => 'CustomerController@index', 'as' => 'index']
+    );
+
+    Route::get(
+        '/customer/edit/{id}',
+        ['uses' => 'CustomerController@edit', 'as' => 'edit']
+    );
+
+    Route::post(
+        '/customer/store/',
+        ['uses' => 'CustomerController@store', 'as' => 'store']
+    );
+
+    Route::PUT(
+        '/customer/update/{id}',
+        ['uses' => 'CustomerController@update', 'as' => 'update']
+    );
+
+    Route::delete(
+        '/customer/{id}',
+        ['uses' => 'CustomerController@destroy', 'as' => 'destroy']
+    );
+});
+
+
+
+
+
+Route::group([
+    'as' => "order.",
+    // 'middleware' => "auth"
+], function () {
+
+    Route::get(
+        '/order',
+        ['uses' => 'OrderController@index', 'as' => 'index']
+    );
+
+    Route::get(
+        '/customer/edit/{id}',
+        ['uses' => 'OrderController@edit', 'as' => 'edit']
+    );
+
+    Route::post(
+        '/customer/store/',
+        ['uses' => 'OrderController@store', 'as' => 'store']
+    );
+
+    Route::PUT(
+        '/customer/update/{id}',
+        ['uses' => 'OrderController@update', 'as' => 'update']
+    );
+
+    Route::delete(
+        '/customer/{id}',
+        ['uses' => 'OrderController@destroy', 'as' => 'destroy']
+    );
+});
+//!====================================[End of Users]====================================//
