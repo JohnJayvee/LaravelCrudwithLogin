@@ -128,11 +128,14 @@ class CustomerController extends Controller
 
         if (customerModel::where('id', $id)->exists()) {
             $customer = customerModel::find($id);
-            $customer->name = is_null($request->u_name) ? $customer->name : $request->u_name;
-            $customer->address = is_null($request->u_address) ? $customer->address : $request->u_address;
-            $customer->phone_number = is_null($request->u_phone_number) ? $customer->phone_number : $request->u_phone_number;
-            $customer->email = is_null($request->u_email) ? $customer->email : $request->u_email;
-
+            // $customer->name = is_null($request->u_name) ? $customer->name : $request->u_name;
+            // $customer->address = is_null($request->u_address) ? $customer->address : $request->u_address;
+            // $customer->phone_number = is_null($request->u_phone_number) ? $customer->phone_number : $request->u_phone_number;
+            // $customer->email = is_null($request->u_email) ? $customer->email : $request->u_email;
+            $customer->name = $request->input('u_name');
+            $customer->address = $request->input('u_address');
+            $customer->phone_number = $request->input('u_phone_number');
+            $customer->email = $request->input('u_email');
 
             $customer->save();
 
