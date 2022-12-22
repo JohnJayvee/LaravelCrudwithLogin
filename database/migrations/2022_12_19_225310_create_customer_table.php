@@ -15,7 +15,6 @@ class CreateCustomerTable extends Migration
     {
         Schema::create('customer', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('order_id')->nullable();
             $table->string('name')->nullable();
             $table->string('address')->nullable();
             $table->string('phone_number')->nullable();

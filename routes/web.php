@@ -83,90 +83,8 @@ Route::group([
 
 
 
-//*===================================[Routes for Contact]===================================//
-
-Route::group([
-    'as' => "contact.",
-    // 'middleware' => "auth"
-], function () {
-
-    Route::get(
-        '/contacts',
-        ['uses' => 'ContactController@index', 'as' => 'index']
-    );
-    Route::get(
-        '/contacts/create',
-        ['uses' => 'ContactController@create', 'as' => 'create']
-    );
-    Route::get(
-        '/contacts/{id}',
-        ['uses' => 'ContactController@show', 'as' => 'show']
-    );
-    Route::get(
-        '/contacts/edit/{id}',
-        ['uses' => 'ContactController@edit', 'as' => 'edit']
-    );
-    Route::post(
-        '/contacts/store',
-        ['uses' => 'ContactController@store', 'as' => 'store']
-    );
-    Route::put(
-        '/contacts/update/{id}',
-        ['uses' => 'ContactController@update', 'as' => 'update']
-    );
-    Route::delete(
-        '/contacts/delete/{id}',
-        ['uses' => 'ContactController@destroy', 'as' => 'destroy']
-    );
-});
-//!===================================[End of Contact]===================================//
 
 
-
-//*====================================[Routes for Users]====================================//
-
-Route::group([
-    'as' => "user.",
-    // 'middleware' => "auth"
-], function () {
-
-    Route::get(
-        '/users',
-        ['uses' => 'UsersController@index', 'as' => 'index']
-    );
-
-    Route::get(
-        '/users/edit/{id}',
-        ['uses' => 'UsersController@edit', 'as' => 'edit']
-    );
-
-    Route::post(
-        '/users/store/',
-        ['uses' => 'UsersController@store', 'as' => 'store']
-    );
-
-    Route::PUT(
-        '/users/update/{id}',
-        ['uses' => 'UsersController@update', 'as' => 'update']
-    );
-
-    Route::delete(
-        '/users/{id}',
-        ['uses' => 'UsersController@destroy', 'as' => 'destroy']
-    );
-});
-//!====================================[End of Users]====================================//
-
-
-
-//*====================================[Routes for Users]====================================//
-
-
-
-
-
-
-//!====================================[End of Users]====================================//
 Route::group([
     'as' => "customer.",
     // 'middleware' => "auth"
@@ -195,36 +113,5 @@ Route::group([
     Route::delete(
         '/customer/{id}',
         ['uses' => 'CustomerController@destroy', 'as' => 'destroy']
-    );
-});
-
-Route::group([
-    'as' => "order.",
-    // 'middleware' => "auth"
-], function () {
-
-    Route::get(
-        '/order',
-        ['uses' => 'OrderController@index', 'as' => 'index']
-    );
-
-    Route::get(
-        '/order/edit/{id}',
-        ['uses' => 'OrderController@edit', 'as' => 'edit']
-    );
-
-    Route::post(
-        '/order/store/',
-        ['uses' => 'OrderController@store', 'as' => 'store']
-    );
-
-    Route::PUT(
-        '/order/update/{id}',
-        ['uses' => 'OrderController@update', 'as' => 'update']
-    );
-
-    Route::delete(
-        '/order/{id}',
-        ['uses' => 'OrderController@destroy', 'as' => 'destroy']
     );
 });
